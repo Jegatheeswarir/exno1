@@ -139,6 +139,101 @@ df
 sns.heatmap(df.isnull(),yticklabels=False,annot=True)
 ```
 ![Screenshot 2024-09-04 134959](https://github.com/user-attachments/assets/6b82eb96-d861-4604-a4aa-ef4732fa209c)
+## OUTLIER DETECTION AND REMOVAL USING IQR
+```
+import pandas as pd
+import seaborn as sns
+import numpy as np
+
+age=[1,3,28,27,25,92,30,39,40,50,26,24,29,94]
+af=pd.DataFrame(age)
+af
+```
+![Screenshot 2024-09-04 184205](https://github.com/user-attachments/assets/e766a2d9-06a3-4eb1-9165-bb19bc5ab913)
+```
+sns.boxplot(data=af)
+```
+![Screenshot 2024-09-04 184242](https://github.com/user-attachments/assets/16b3db8e-24e7-41c8-9a46-078cbf87847d)
+```
+sns.scatterplot(data=af)
+```
+![Screenshot 2024-09-04 184309](https://github.com/user-attachments/assets/86bd298f-6489-42e2-a1d9-ef60e031d415)
+```
+q1=af.quantile(0.25)
+q2=af.quantile(0.50)
+q3=af.quantile(0.75)
+iqr=q3-q1
+iqr
+```
+![Screenshot 2024-09-04 184332](https://github.com/user-attachments/assets/66c2f8d5-cb19-42ad-8925-1e7156f3447a)
+```
+Q1=np.percentile(af,25)
+Q3=np.percentile(af,75)
+IQR=Q3-Q1
+IQR
+```
+![Screenshot 2024-09-04 184356](https://github.com/user-attachments/assets/eb99ae4f-0eff-448e-8bda-e14c8db1271f)
+```
+lower_bound=Q1-1.5*IQR
+upper_bound=Q3+1.5*IQR
+lower_bound
+upper_bound
+```
+![Screenshot 2024-09-04 184441](https://github.com/user-attachments/assets/82159a80-7a90-416a-9f94-10a5c0d07e33)
+```
+outliers = [x for x in age if x < lower_bound or x > upper_bound]
+print("Q1:",Q1)
+print("Q3:",Q3)
+print("IQR:",IQR)
+print("Lower bound:",lower_bound)
+print("Upper bound:",upper_bound)
+print("Outliers:",outliers)
+```
+![Screenshot 2024-09-04 184551](https://github.com/user-attachments/assets/d0d4ae5b-a393-4a76-8602-0b8371c161bf)
+```
+af=af[((af>=lower_bound)&(af<=upper_bound))]
+af
+```
+![Screenshot 2024-09-04 184632](https://github.com/user-attachments/assets/b38d9a6c-3aa8-4b11-8fa7-9b8e656a35b9)
+```
+af.dropna()
+```
+![Screenshot 2024-09-04 184657](https://github.com/user-attachments/assets/1bf7689a-44b4-41f6-a695-4df188988067)
+```
+data=[1,2,2,2,3,1,1,15,2,2,2,3,1,1,2]
+mean=np.mean(data)
+std=np.std(data)
+print("mean of the dataset is",mean)
+print("std.deviation is",std)
+```
+![Screenshot 2024-09-04 184730](https://github.com/user-attachments/assets/bafe24b2-21b7-4459-b2c6-fabf190fbd01)
+```
+threshold=3
+outlier=[]
+for i in data:
+  z=(i-mean)/std
+  if z > threshold:
+    outlier.append(i)
+print("outlier in dataset is",outlier)
+```
+![Screenshot 2024-09-04 184841](https://github.com/user-attachments/assets/e55c24bd-2420-4796-b185-733f577035cb)
+```
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from scipy import stats
+data={'weight':[12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60,63,66,69,202,72,75,78,81,84,232,87,90,93,96,99,258]}
+df=pd.DataFrame(data)
+df
+```
+![Screenshot 2024-09-04 184933](https://github.com/user-attachments/assets/4af140c6-9a8f-4b73-9034-f165a9647a62)
+```
+z=np.abs(stats.zscore(df))
+print(df[z['weight']>3])
+```
+![Screenshot 2024-09-04 184959](https://github.com/user-attachments/assets/e6f643bd-d4ff-4929-a965-1fac4ff34dad)
+
+
 
 # Result
-          <<include your Result here>>
+Thus we have cleaned the data and removed the outliers by detection using IQR and Z-score method.
