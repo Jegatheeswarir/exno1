@@ -51,10 +51,11 @@ df.tail(3)
 df.isna().sum()
 ```
 ![Screenshot 2024-09-04 133421](https://github.com/user-attachments/assets/5ce44890-a05f-46bf-88e4-9e7584365e9b)
-
+```
 df.shape
 ```
 ![Screenshot 2024-09-04 133511](https://github.com/user-attachments/assets/69239562-b0ce-41d2-ac7c-fa2d301c591d)
+
 ```
 x=df.dropna(how='any')
 df
